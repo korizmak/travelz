@@ -1,0 +1,7 @@
+{
+  "name": "travelz",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
