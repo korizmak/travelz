@@ -1,6 +1,15 @@
+ion-toolbar {
+  --background: #ffffff;
+  --color: #111111;
+  --border-color: #e5e5e5;
+  --border-width: 0 0 1px 0;
+  --border-style: solid;
+}
+
 .not-found {
   text-align: center;
   margin-top: 2rem;
+  color: #111111;
 }
 
 .trip-info-card {
@@ -9,15 +18,33 @@
 
 h3 {
   margin-bottom: 1rem;
+  color: #111111;
+  font-weight: 600;
 }
 
 .no-events {
   text-align: center;
-  color: #666;
+  color: #888888;
   margin-top: 2rem;
   font-style: italic;
 }
 
 .event-card {
   margin-bottom: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.event-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+ion-card-content p {
+  color: #111111;
+  margin: 0.5rem 0;
+}
+
+ion-card-content strong {
+  color: #111111;
+  font-weight: 500;
 }

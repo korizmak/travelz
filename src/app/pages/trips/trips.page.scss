@@ -1,21 +1,32 @@
 ion-content {
-  --background: #eff6ff;
+  --background: var(--ion-background-color);
 }
 
 ion-toolbar {
-  --background: #2563eb;
-  --color: #ffffff;
+  --background: #ffffff;
+  --color: #111111;
+  --border-color: #e5e5e5;
+  --border-width: 0 0 1px 0;
+  --border-style: solid;
+}
+
+ion-title {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  font-size: 1.25rem;
+  color: #111111;
 }
 
 h2 {
   margin-bottom: 1.5rem;
-  color: #0f172a;
+  color: #ffffff;
   font-weight: 600;
+  font-size: 1.5rem;
 }
 
 .no-trips {
   text-align: center;
-  color: #64748b;
+  color: #888888;
   margin-top: 2rem;
   font-style: italic;
 }
@@ -23,7 +34,7 @@ h2 {
 .trips-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 360px));
-  gap: 20px;
+  gap: 24px;
   align-items: start;
 }
 
@@ -35,36 +46,39 @@ h2 {
 
 .trip-card {
   background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e5e5e5;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
 }
 
 .trip-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 ion-card-title {
-  color: #0f172a;
+  color: #111111;
   font-weight: 600;
 }
 
 ion-card-subtitle {
-  color: #64748b;
+  color: #666666;
 }
 
 ion-card-content p {
-  color: #0f172a;
+  color: #111111;
   margin: 0.5rem 0;
 }
 
 ion-card-content strong {
-  color: #1e40af;
+  color: #111111;
+  font-weight: 500;
 }
 
 ion-fab-button {
-  --background: #2563eb;
+  --background: #111111;
   --color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
