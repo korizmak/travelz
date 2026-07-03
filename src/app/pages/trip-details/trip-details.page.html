@@ -7,50 +7,56 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content>
   <div *ngIf="!trip" class="not-found">
     <p>Trip not found.</p>
     <ion-button routerLink="/trips">Back to Trips</ion-button>
   </div>
 
-  <div *ngIf="trip">
-    <ion-card class="trip-info-card">
-      <ion-card-header>
-        <ion-card-title>{{ trip.title }}</ion-card-title>
-        <ion-card-subtitle>{{ trip.destination }}</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content>
-        <p><strong>Dates:</strong> {{ trip.startDate }} - {{ trip.endDate }}</p>
-        <p *ngIf="trip.description"><strong>Description:</strong> {{ trip.description }}</p>
-        <p *ngIf="trip.budget"><strong>Budget:</strong> €{{ trip.budget }}</p>
-        <p><strong>Total Spent:</strong> €{{ getTripTotalSpent() }}</p>
-        <p *ngIf="getRemainingBudget() !== undefined">
-          <strong>Remaining:</strong> €{{ getRemainingBudget() }}
-        </p>
-      </ion-card-content>
-    </ion-card>
-
-    <h3>Events</h3>
-
-    <div *ngIf="events.length === 0" class="no-events">
-      No events yet. Add your first event.
+  <div *ngIf="trip" class="trip-details-layout">
+    <div class="trip-info-column">
+      <ion-card class="trip-info-card">
+        <ion-card-header>
+          <ion-card-title>{{ trip.title }}</ion-card-title>
+          <ion-card-subtitle>{{ trip.destination }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <p><strong>Dates:</strong> {{ trip.startDate }} - {{ trip.endDate }}</p>
+          <p *ngIf="trip.description"><strong>Description:</strong> {{ trip.description }}</p>
+          <p *ngIf="trip.budget"><strong>Budget:</strong> €{{ trip.budget }}</p>
+          <p><strong>Total Spent:</strong> €{{ getTripTotalSpent() }}</p>
+          <p *ngIf="getRemainingBudget() !== undefined">
+            <strong>Remaining:</strong> €{{ getRemainingBudget() }}
+          </p>
+        </ion-card-content>
+      </ion-card>
     </div>
 
-    <ion-card *ngFor="let event of events" class="event-card">
-      <ion-card-header>
-        <ion-card-title>{{ event.title }}</ion-card-title>
-        <ion-card-subtitle>{{ event.type }}</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content>
-        <p *ngIf="event.date || event.time">
-          <strong>Date/Time:</strong> 
-          <span *ngIf="event.date">{{ event.date }}</span>
-          <span *ngIf="event.date && event.time"> at </span>
-          <span *ngIf="event.time">{{ event.time }}</span>
-        </p>
-        <p *ngIf="event.notes"><strong>Notes:</strong> {{ event.notes }}</p>
-        <p><strong>Total Cost:</strong> €{{ getEventTotalCost(event) }}</p>
-      </ion-card-content>
-    </ion-card>
+    <div class="events-column">
+      <h3>Activities</h3>
+
+      <div *ngIf="events.length === 0" class="no-events">
+        No activities yet. Add your first activity.
+      </div>
+
+      <div class="events-grid" *ngIf="events.length > 0">
+        <ion-card *ngFor="let event of events" class="event-card">
+          <ion-card-header>
+            <ion-card-title>{{ event.title }}</ion-card-title>
+            <ion-card-subtitle>{{ event.type }}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <p *ngIf="event.date || event.time">
+              <strong>Date/Time:</strong> 
+              <span *ngIf="event.date">{{ event.date }}</span>
+              <span *ngIf="event.date && event.time"> at </span>
+              <span *ngIf="event.time">{{ event.time }}</span>
+            </p>
+            <p *ngIf="event.notes"><strong>Notes:</strong> {{ event.notes }}</p>
+            <p><strong>Total Cost:</strong> €{{ getEventTotalCost(event) }}</p>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
   </div>
 </ion-content>
