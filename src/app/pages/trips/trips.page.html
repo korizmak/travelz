@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>TravelMate</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h2>My Trips</h2>
+
+  <div *ngIf="trips.length === 0" class="no-trips">
+    No trips yet. Add your first trip.
+  </div>
+
+  <ion-card *ngFor="let trip of trips" class="trip-card">
+    <ion-card-header>
+      <ion-card-title>{{ trip.title }}</ion-card-title>
+      <ion-card-subtitle>{{ trip.destination }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <p><strong>Dates:</strong> {{ trip.startDate }} - {{ trip.endDate }}</p>
+      <p *ngIf="trip.budget"><strong>Budget:</strong> €{{ trip.budget }}</p>
+      <p><strong>Total Spent:</strong> €{{ getTripTotalSpent(trip.id!) }}</p>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
