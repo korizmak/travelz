@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import { ViewWillEnter, IonicModule } from '@ionic/angular';
 import { Trip } from '../../models/trip.model';
 import { TravelEvent } from '../../models/travel-event.model';
 import { TravelDataService } from '../../services/travel-data.service';
@@ -13,7 +13,7 @@ import { TravelDataService } from '../../services/travel-data.service';
   standalone: true,
   imports: [CommonModule, IonicModule, RouterModule]
 })
-export class TripDetailsPage implements OnInit {
+export class TripDetailsPage implements OnInit, ViewWillEnter {
   trip: Trip | undefined;
   events: TravelEvent[] = [];
   tripId: string = '';
@@ -26,6 +26,14 @@ export class TripDetailsPage implements OnInit {
 
   ngOnInit() {
     this.tripId = this.route.snapshot.paramMap.get('tripId') || '';
+    this.loadTripDetails();
+  }
+
+  ionViewWillEnter() {
+    this.loadTripDetails();
+  }
+
+  loadTripDetails() {
     this.trip = this.travelDataService.getTripById(this.tripId);
     
     if (this.trip) {

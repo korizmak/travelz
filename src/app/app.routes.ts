@@ -2,6 +2,14 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: 'trips/new',
+    loadComponent: () => import('./pages/trip-form/trip-form.page').then((m) => m.TripFormPage),
+  },
+  {
+    path: 'trips/:tripId/edit',
+    loadComponent: () => import('./pages/trip-form/trip-form.page').then((m) => m.TripFormPage),
+  },
+  {
     path: 'trips/:tripId',
     loadComponent: () => import('./pages/trip-details/trip-details.page').then((m) => m.TripDetailsPage),
   },

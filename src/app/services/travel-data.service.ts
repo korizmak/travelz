@@ -13,8 +13,8 @@ export class TravelDataService {
       id: '1',
       title: 'Paris Adventure',
       destination: 'Paris, France',
-      startDate: '15-06-2026',
-      endDate: '22-06-2026',
+      startDate: '2026-06-15',
+      endDate: '2026-06-22',
       budget: 2000,
       description: 'A week exploring the city of lights'
     },
@@ -22,8 +22,8 @@ export class TravelDataService {
       id: '2',
       title: 'Rome Getaway',
       destination: 'Rome, Italy',
-      startDate: '10-07-2026',
-      endDate: '17-07-2026',
+      startDate: '2026-07-10',
+      endDate: '2026-07-17',
       budget: 1800,
       description: 'Ancient history and Italian cuisine'
     },
@@ -31,8 +31,8 @@ export class TravelDataService {
       id: '3',
       title: 'Barcelona Beach Trip',
       destination: 'Barcelona, Spain',
-      startDate: '05-08-2026',
-      endDate: '12-08-2026',
+      startDate: '2026-08-05',
+      endDate: '2026-08-12',
       budget: 1500,
       description: 'Sun, sea, and Gaudi architecture'
     }
@@ -44,7 +44,7 @@ export class TravelDataService {
       tripId: '1',
       title: 'Hotel Le Marais',
       type: EventType.accommodation,
-      date: '15-06-2026',
+      date: '2026-06-15',
       time: '14:00',
       notes: 'Check-in at boutique hotel',
       costs: [
@@ -58,7 +58,7 @@ export class TravelDataService {
       tripId: '1',
       title: 'Eiffel Tower Visit',
       type: EventType.sightseeing,
-      date: '16-06-2026',
+      date: '2026-06-16',
       time: '10:00',
       notes: 'Book tickets in advance',
       costs: [
@@ -70,7 +70,7 @@ export class TravelDataService {
       tripId: '1',
       title: 'Dinner at Le Petit Cler',
       type: EventType.food,
-      date: '16-06-2026',
+      date: '2026-06-16',
       time: '19:30',
       notes: 'French bistro experience',
       costs: [
@@ -82,7 +82,7 @@ export class TravelDataService {
       tripId: '1',
       title: 'Metro Pass',
       type: EventType.transport,
-      date: '15-06-2026',
+      date: '2026-06-15',
       notes: 'Weekly pass for unlimited travel',
       costs: [
         { title: 'Weekly Pass', amount: 25 }
@@ -93,7 +93,7 @@ export class TravelDataService {
       tripId: '2',
       title: 'Hotel Colosseum',
       type: EventType.accommodation,
-      date: '10-07-2026',
+      date: '2026-07-10',
       time: '15:00',
       notes: 'Central location near Colosseum',
       costs: [
@@ -107,7 +107,7 @@ export class TravelDataService {
       tripId: '2',
       title: 'Colosseum Tour',
       type: EventType.sightseeing,
-      date: '11-07-2026',
+      date: '2026-07-11',
       time: '09:00',
       notes: 'Guided tour with skip-the-line',
       costs: [
@@ -119,7 +119,7 @@ export class TravelDataService {
       tripId: '2',
       title: 'Vatican Museums',
       type: EventType.sightseeing,
-      date: '12-07-2026',
+      date: '2026-07-12',
       time: '08:30',
       notes: 'Early morning visit',
       costs: [
@@ -131,7 +131,7 @@ export class TravelDataService {
       tripId: '3',
       title: 'Hotel Gothic Quarter',
       type: EventType.accommodation,
-      date: '05-08-2026',
+      date: '2026-08-05',
       time: '16:00',
       notes: 'Historic center location',
       costs: [
@@ -145,7 +145,7 @@ export class TravelDataService {
       tripId: '3',
       title: 'Sagrada Familia',
       type: EventType.sightseeing,
-      date: '06-08-2026',
+      date: '2026-08-06',
       time: '11:00',
       notes: 'Gaudi masterpiece',
       costs: [
@@ -157,7 +157,7 @@ export class TravelDataService {
       tripId: '3',
       title: 'Paella Dinner',
       type: EventType.food,
-      date: '06-08-2026',
+      date: '2026-08-06',
       time: '20:00',
       notes: 'Traditional Spanish cuisine',
       costs: [

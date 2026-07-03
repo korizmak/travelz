@@ -4,6 +4,9 @@
       <ion-back-button defaultHref="/trips"></ion-back-button>
     </ion-buttons>
     <ion-title>TravelZ</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/trips/{{ trip?.id }}/edit">Edit Trip</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 

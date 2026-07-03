@@ -1,0 +1,87 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/trips"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ pageTitle }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="form-container">
+    <ion-card class="form-card">
+      <ion-card-content>
+        <form (ngSubmit)="onSubmit()">
+          <ion-item>
+            <ion-label position="stacked">Title *</ion-label>
+            <ion-input 
+              type="text" 
+              [(ngModel)]="form.title" 
+              name="title"
+              required>
+            </ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Destination *</ion-label>
+            <ion-input 
+              type="text" 
+              [(ngModel)]="form.destination" 
+              name="destination"
+              required>
+            </ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Start Date *</ion-label>
+            <ion-input 
+              type="date" 
+              [(ngModel)]="form.startDate" 
+              name="startDate"
+              required>
+            </ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">End Date *</ion-label>
+            <ion-input 
+              type="date" 
+              [(ngModel)]="form.endDate" 
+              name="endDate"
+              required>
+            </ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Budget (€)</ion-label>
+            <ion-input 
+              type="number" 
+              [(ngModel)]="form.budget" 
+              name="budget"
+              min="0"
+              step="0.01">
+            </ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Description</ion-label>
+            <ion-textarea 
+              [(ngModel)]="form.description" 
+              name="description"
+              rows="4">
+            </ion-textarea>
+          </ion-item>
+
+          <div class="button-group">
+            <ion-button type="button" fill="outline" (click)="onCancel()">
+              Cancel
+            </ion-button>
+            <ion-button type="submit" fill="solid">
+              {{ submitButtonText }}
+            </ion-button>
+          </div>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
