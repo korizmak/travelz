@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>TravelMate</ion-title>
+    <ion-title>TravelZ</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,15 +11,23 @@
     No trips yet. Add your first trip.
   </div>
 
-  <ion-card *ngFor="let trip of trips" class="trip-card" [routerLink]="['/trips', trip.id]">
-    <ion-card-header>
-      <ion-card-title>{{ trip.title }}</ion-card-title>
-      <ion-card-subtitle>{{ trip.destination }}</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-      <p><strong>Dates:</strong> {{ trip.startDate }} - {{ trip.endDate }}</p>
-      <p *ngIf="trip.budget"><strong>Budget:</strong> €{{ trip.budget }}</p>
-      <p><strong>Total Spent:</strong> €{{ getTripTotalSpent(trip.id!) }}</p>
-    </ion-card-content>
-  </ion-card>
+  <div class="trips-grid" *ngIf="trips.length > 0">
+    <ion-card *ngFor="let trip of trips" class="trip-card" [routerLink]="['/trips', trip.id]">
+      <ion-card-header>
+        <ion-card-title>{{ trip.title }}</ion-card-title>
+        <ion-card-subtitle>{{ trip.destination }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <p><strong>Dates:</strong> {{ trip.startDate }} - {{ trip.endDate }}</p>
+        <p *ngIf="trip.budget"><strong>Budget:</strong> €{{ trip.budget }}</p>
+        <p><strong>Total Spent:</strong> €{{ getTripTotalSpent(trip.id!) }}</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerLink="/trips/add" color="primary">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

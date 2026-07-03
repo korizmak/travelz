@@ -1,14 +1,70 @@
+ion-content {
+  --background: #eff6ff;
+}
+
+ion-toolbar {
+  --background: #2563eb;
+  --color: #ffffff;
+}
+
+h2 {
+  margin-bottom: 1.5rem;
+  color: #0f172a;
+  font-weight: 600;
+}
+
 .no-trips {
   text-align: center;
-  color: #666;
+  color: #64748b;
   margin-top: 2rem;
   font-style: italic;
 }
 
-.trip-card {
-  margin-bottom: 1rem;
+.trips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 360px));
+  gap: 20px;
+  align-items: start;
 }
 
-h2 {
-  margin-bottom: 1rem;
+@media (max-width: 768px) {
+  .trips-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.trip-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.trip-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+ion-card-title {
+  color: #0f172a;
+  font-weight: 600;
+}
+
+ion-card-subtitle {
+  color: #64748b;
+}
+
+ion-card-content p {
+  color: #0f172a;
+  margin: 0.5rem 0;
+}
+
+ion-card-content strong {
+  color: #1e40af;
+}
+
+ion-fab-button {
+  --background: #2563eb;
+  --color: #ffffff;
 }
