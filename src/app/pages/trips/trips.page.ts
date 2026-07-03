@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { Trip } from '../../models/trip.model';
 import { TravelDataService } from '../../services/travel-data.service';
@@ -9,7 +10,7 @@ import { TravelDataService } from '../../services/travel-data.service';
   templateUrl: './trips.page.html',
   styleUrls: ['./trips.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule]
+  imports: [CommonModule, RouterModule, IonicModule]
 })
 export class TripsPage implements OnInit {
   trips: Trip[] = [];

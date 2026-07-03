@@ -11,7 +11,7 @@
     No trips yet. Add your first trip.
   </div>
 
-  <ion-card *ngFor="let trip of trips" class="trip-card">
+  <ion-card *ngFor="let trip of trips" class="trip-card" [routerLink]="['/trips', trip.id]">
     <ion-card-header>
       <ion-card-title>{{ trip.title }}</ion-card-title>
       <ion-card-subtitle>{{ trip.destination }}</ion-card-subtitle>
