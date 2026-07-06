@@ -63,6 +63,20 @@ ion-content {
   min-width: 0;
 }
 
+.activity-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.activity-header h3 {
+  margin: 0;
+  color: #111111;
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
 .events-column h3 {
   margin-bottom: 1rem;
   color: #111111;
@@ -78,13 +92,19 @@ ion-content {
 
 .events-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(2, minmax(280px, 420px));
   gap: 24px;
+  align-items: start;
+  justify-content: start;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1100px) {
   .events-grid {
     grid-template-columns: 1fr;
+  }
+
+  .event-card {
+    max-width: 100%;
   }
 }
 
@@ -96,6 +116,8 @@ ion-content {
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
   padding: 24px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+  max-width: 420px;
 }
 
 .event-card:hover {
@@ -111,4 +133,10 @@ ion-card-content p {
 ion-card-content strong {
   color: #111111;
   font-weight: 500;
+}
+
+.event-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
 }

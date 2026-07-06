@@ -6,6 +6,7 @@
     <ion-title>TravelZ</ion-title>
     <ion-buttons slot="end">
       <ion-button [routerLink]="['/trips', trip?.id, 'edit']">Edit Trip</ion-button>
+      <ion-button color="danger" (click)="deleteTrip()">Delete Trip</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -65,6 +66,9 @@
             <div class="event-actions">
               <ion-button fill="clear" size="small" [routerLink]="['/trips', tripId, 'events', event.id, 'edit']">
                 Edit
+              </ion-button>
+              <ion-button fill="clear" size="small" color="danger" (click)="deleteEvent(event.id)">
+                Delete
               </ion-button>
             </div>
           </ion-card-content>
