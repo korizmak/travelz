@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title>TravelZ</ion-title>
     <ion-buttons slot="end">
-      <ion-button routerLink="/trips/{{ trip?.id }}/edit">Edit Trip</ion-button>
+      <ion-button [routerLink]="['/trips', trip?.id, 'edit']">Edit Trip</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -36,7 +36,12 @@
     </div>
 
     <div class="events-column">
-      <h3>Activities</h3>
+      <div class="activity-header">
+        <h3>Activities</h3>
+        <ion-button size="small" fill="outline" [routerLink]="['/trips', tripId, 'events', 'new']">
+          Add Activity
+        </ion-button>
+      </div>
 
       <div *ngIf="events.length === 0" class="no-events">
         No activities yet. Add your first activity.
@@ -50,13 +55,18 @@
           </ion-card-header>
           <ion-card-content>
             <p *ngIf="event.date || event.time">
-              <strong>Date/Time:</strong> 
-              <span *ngIf="event.date">{{ event.date }}</span>
+              <strong>Date/Time:</strong>
+              <span *ngIf="event.date">{{ formatDate(event.date) }}</span>
               <span *ngIf="event.date && event.time"> at </span>
               <span *ngIf="event.time">{{ event.time }}</span>
             </p>
             <p *ngIf="event.notes"><strong>Notes:</strong> {{ event.notes }}</p>
             <p><strong>Total Cost:</strong> €{{ getEventTotalCost(event) }}</p>
+            <div class="event-actions">
+              <ion-button fill="clear" size="small" [routerLink]="['/trips', tripId, 'events', event.id, 'edit']">
+                Edit
+              </ion-button>
+            </div>
           </ion-card-content>
         </ion-card>
       </div>

@@ -199,7 +199,6 @@ export class TravelDataService {
       return false;
     }
     this.trips.splice(index, 1);
-    // Delete all events belonging to this trip
     this.events = this.events.filter(event => event.tripId !== id);
     return true;
   }
@@ -213,21 +212,22 @@ export class TravelDataService {
     return this.events.find(event => event.id === eventId);
   }
 
-  addEvent(event: Omit<TravelEvent, 'id'>): TravelEvent {
+  addEvent(tripId: string, eventData: Omit<TravelEvent, 'id'>): TravelEvent {
     const newEvent: TravelEvent = {
-      ...event,
+      ...eventData,
+      tripId,
       id: Date.now().toString()
     };
     this.events.push(newEvent);
     return newEvent;
   }
 
-  updateEvent(eventId: string, event: Partial<TravelEvent>): TravelEvent | undefined {
+  updateEvent(eventId: string, eventData: Partial<TravelEvent>): TravelEvent | undefined {
     const index = this.events.findIndex(e => e.id === eventId);
     if (index === -1) {
       return undefined;
     }
-    this.events[index] = { ...this.events[index], ...event };
+    this.events[index] = { ...this.events[index], ...eventData };
     return this.events[index];
   }
 

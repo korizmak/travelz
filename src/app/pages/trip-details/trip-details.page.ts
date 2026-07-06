@@ -16,7 +16,7 @@ import { TravelDataService } from '../../services/travel-data.service';
 export class TripDetailsPage implements OnInit, ViewWillEnter {
   trip: Trip | undefined;
   events: TravelEvent[] = [];
-  tripId: string = '';
+  tripId = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -34,11 +34,26 @@ export class TripDetailsPage implements OnInit, ViewWillEnter {
   }
 
   loadTripDetails() {
+    this.tripId = this.route.snapshot.paramMap.get('tripId') || '';
     this.trip = this.travelDataService.getTripById(this.tripId);
-    
+
     if (this.trip) {
       this.events = this.travelDataService.getEventsByTripId(this.tripId);
     }
+  }
+
+  formatDate(dateValue?: string): string {
+    if (!dateValue) {
+      return '';
+    }
+
+    const parts = dateValue.split('-');
+    if (parts.length !== 3) {
+      return dateValue;
+    }
+
+    const [year, month, day] = parts;
+    return `${day}-${month}-${year}`;
   }
 
   getEventTotalCost(event: TravelEvent): number {
