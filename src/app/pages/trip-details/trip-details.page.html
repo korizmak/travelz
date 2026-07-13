@@ -28,9 +28,9 @@
           <p><strong>Dates:</strong> {{ trip.startDate }} - {{ trip.endDate }}</p>
           <p *ngIf="trip.description"><strong>Description:</strong> {{ trip.description }}</p>
           <p *ngIf="trip.budget"><strong>Budget:</strong> €{{ trip.budget }}</p>
-          <p><strong>Total Spent:</strong> €{{ getTripTotalSpent() }}</p>
-          <p *ngIf="getRemainingBudget() !== undefined">
-            <strong>Remaining:</strong> €{{ getRemainingBudget() }}
+          <p><strong>Total Spent:</strong> €{{ totalSpent }}</p>
+          <p *ngIf="remainingBudget !== undefined">
+            <strong>Remaining:</strong> €{{ remainingBudget }}
           </p>
         </ion-card-content>
       </ion-card>
@@ -62,15 +62,17 @@
               <span *ngIf="event.time">{{ event.time }}</span>
             </p>
             <p *ngIf="event.notes"><strong>Notes:</strong> {{ event.notes }}</p>
-            <p><strong>Total Cost:</strong> €{{ getEventTotalCost(event) }}</p>
-            <div class="event-actions">
-              <ion-button fill="clear" size="small" [routerLink]="['/trips', tripId, 'events', event.id, 'edit']">
-                Edit
-              </ion-button>
-              <ion-button fill="clear" size="small" color="danger" (click)="deleteEvent(event.id)">
-                Delete
-              </ion-button>
-            </div>
+            <ng-container *ngIf="event.id as eventId">
+              <p><strong>Total Cost:</strong> €{{ eventCosts[eventId] }}</p>
+              <div class="event-actions">
+                <ion-button fill="clear" size="small" [routerLink]="['/trips', tripId, 'events', eventId, 'edit']">
+                  Edit
+                </ion-button>
+                <ion-button fill="clear" size="small" color="danger" (click)="deleteEvent(eventId)">
+                  Delete
+                </ion-button>
+              </div>
+            </ng-container>
           </ion-card-content>
         </ion-card>
       </div>

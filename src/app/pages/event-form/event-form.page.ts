@@ -21,6 +21,7 @@ export class EventFormPage implements OnInit {
   isEditMode = false;
   pageTitle = 'Add Activity';
   submitButtonText = 'Add Activity';
+  saving = false;
 
   form = {
     title: '',
@@ -47,20 +48,21 @@ export class EventFormPage implements OnInit {
     private travelDataService: TravelDataService
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.tripId = this.route.snapshot.paramMap.get('tripId') || '';
+    console.log('EventForm tripId:', this.tripId);
     this.eventId = this.route.snapshot.paramMap.get('eventId');
 
     if (this.eventId) {
       this.isEditMode = true;
       this.pageTitle = 'Edit Activity';
       this.submitButtonText = 'Save Changes';
-      this.loadEvent();
+      await this.loadEvent();
     }
   }
 
-  loadEvent() {
-    const event = this.travelDataService.getEventById(this.eventId!);
+  async loadEvent() {
+    const event = await this.travelDataService.getEventById(this.eventId!);
     if (event) {
       this.form = {
         title: event.title,
@@ -78,7 +80,16 @@ export class EventFormPage implements OnInit {
     }
   }
 
-  onSubmit() {
+  async onSubmit() {
+    if (this.saving) {
+      return;
+    }
+
+    if (!this.tripId) {
+      alert('Trip ID is missing. Cannot save activity.');
+      return;
+    }
+
     if (!this.validateForm()) {
       return;
     }
@@ -93,8 +104,7 @@ export class EventFormPage implements OnInit {
         }]
       : [];
 
-    const eventData: Omit<TravelEvent, 'id'> = {
-      tripId: this.tripId,
+    const eventData: Omit<TravelEvent, 'id' | 'tripId'> = {
       title: this.form.title.trim(),
       type: this.form.type as EventType,
       date: this.form.date || undefined,
@@ -103,14 +113,24 @@ export class EventFormPage implements OnInit {
       costs: validCosts.length > 0 ? validCosts : undefined
     };
 
-    if (this.isEditMode && this.eventId) {
-      const updatedEvent = this.travelDataService.updateEvent(this.eventId, eventData);
-      if (updatedEvent) {
+    try {
+      this.saving = true;
+      if (this.isEditMode && this.eventId) {
+        const updatedEvent = await this.travelDataService.updateEvent(this.eventId, eventData);
+        if (updatedEvent) {
+          this.router.navigate(['/trips', this.tripId]);
+        }
+      } else {
+        const savedEvent = await this.travelDataService.addEvent(this.tripId, eventData);
+        console.log('Saved event tripId:', savedEvent.tripId);
+        console.log('Expected tripId:', this.tripId);
         this.router.navigate(['/trips', this.tripId]);
       }
-    } else {
-      this.travelDataService.addEvent(this.tripId, eventData);
-      this.router.navigate(['/trips', this.tripId]);
+    } catch (error) {
+      console.error('Failed to save event:', error);
+      alert('Failed to save activity. Please try again.');
+    } finally {
+      this.saving = false;
     }
   }
 

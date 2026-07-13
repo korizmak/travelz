@@ -17,6 +17,10 @@ export class TripDetailsPage implements OnInit, ViewWillEnter {
   trip: Trip | undefined;
   events: TravelEvent[] = [];
   tripId = '';
+  totalSpent = 0;
+  remainingBudget: number | undefined;
+  eventCosts: Record<string, number> = {};
+  loading = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -25,21 +29,52 @@ export class TripDetailsPage implements OnInit, ViewWillEnter {
     private alertController: AlertController
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.tripId = this.route.snapshot.paramMap.get('tripId') || '';
-    this.loadTripDetails();
   }
 
-  ionViewWillEnter() {
-    this.loadTripDetails();
+  async ionViewWillEnter() {
+    await this.loadTripDetails();
   }
 
-  loadTripDetails() {
-    this.tripId = this.route.snapshot.paramMap.get('tripId') || '';
-    this.trip = this.travelDataService.getTripById(this.tripId);
+  async loadTripDetails() {
+    if (this.loading) return;
 
-    if (this.trip) {
-      this.events = this.travelDataService.getEventsByTripId(this.tripId);
+    try {
+      this.loading = true;
+      this.tripId = this.route.snapshot.paramMap.get('tripId') || '';
+      this.trip = await this.travelDataService.getTripById(this.tripId);
+
+      if (this.trip) {
+        this.events = await this.travelDataService.getEventsByTripId(this.tripId);
+        this.computeTotals();
+      }
+    } finally {
+      this.loading = false;
+    }
+  }
+
+  private computeTotals() {
+    // Compute event costs
+    const costs: Record<string, number> = {};
+    let total = 0;
+
+    for (const event of this.events) {
+      if (event.id) {
+        const cost = this.travelDataService.getEventTotalCost(event);
+        costs[event.id] = cost;
+        total += cost;
+      }
+    }
+
+    this.eventCosts = costs;
+    this.totalSpent = total;
+
+    // Compute remaining budget
+    if (this.trip && this.trip.budget) {
+      this.remainingBudget = this.trip.budget - total;
+    } else {
+      this.remainingBudget = undefined;
     }
   }
 
@@ -55,21 +90,6 @@ export class TripDetailsPage implements OnInit, ViewWillEnter {
 
     const [year, month, day] = parts;
     return `${day}-${month}-${year}`;
-  }
-
-  getEventTotalCost(event: TravelEvent): number {
-    return this.travelDataService.getEventTotalCost(event);
-  }
-
-  getTripTotalSpent(): number {
-    return this.travelDataService.getTripTotalSpent(this.tripId);
-  }
-
-  getRemainingBudget(): number | undefined {
-    if (this.trip && this.trip.budget) {
-      return this.trip.budget - this.getTripTotalSpent();
-    }
-    return undefined;
   }
 
   goBack() {
@@ -88,8 +108,8 @@ export class TripDetailsPage implements OnInit, ViewWillEnter {
         {
           text: 'Delete',
           role: 'destructive',
-          handler: () => {
-            this.travelDataService.deleteTrip(this.tripId);
+          handler: async () => {
+            await this.travelDataService.deleteTrip(this.tripId);
             this.router.navigate(['/trips']);
           }
         }
@@ -111,9 +131,11 @@ export class TripDetailsPage implements OnInit, ViewWillEnter {
         {
           text: 'Delete',
           role: 'destructive',
-          handler: () => {
-            this.travelDataService.deleteEvent(eventId!);
-            this.loadTripDetails();
+          handler: async () => {
+            if (eventId) {
+              await this.travelDataService.deleteEvent(eventId);
+              await this.loadTripDetails();
+            }
           }
         }
       ]

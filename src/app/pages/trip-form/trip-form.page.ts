@@ -18,6 +18,7 @@ export class TripFormPage implements OnInit {
   isEditMode = false;
   pageTitle = 'Add Trip';
   submitButtonText = 'Add Trip';
+  saving = false;
 
   form = {
     title: '',
@@ -34,19 +35,19 @@ export class TripFormPage implements OnInit {
     private travelDataService: TravelDataService
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.tripId = this.route.snapshot.paramMap.get('tripId');
     
     if (this.tripId) {
       this.isEditMode = true;
       this.pageTitle = 'Edit Trip';
       this.submitButtonText = 'Save Changes';
-      this.loadTrip();
+      await this.loadTrip();
     }
   }
 
-  loadTrip() {
-    const trip = this.travelDataService.getTripById(this.tripId!);
+  async loadTrip() {
+    const trip = await this.travelDataService.getTripById(this.tripId!);
     if (trip) {
       this.form = {
         title: trip.title,
@@ -59,7 +60,11 @@ export class TripFormPage implements OnInit {
     }
   }
 
-  onSubmit() {
+  async onSubmit() {
+    if (this.saving) {
+      return;
+    }
+
     if (!this.validateForm()) {
       return;
     }
@@ -73,14 +78,22 @@ export class TripFormPage implements OnInit {
       description: this.form.description || undefined
     };
 
-    if (this.isEditMode && this.tripId) {
-      const updatedTrip = this.travelDataService.updateTrip(this.tripId, tripData);
-      if (updatedTrip) {
-        this.router.navigate(['/trips', this.tripId]);
+    try {
+      this.saving = true;
+      if (this.isEditMode && this.tripId) {
+        const updatedTrip = await this.travelDataService.updateTrip(this.tripId, tripData);
+        if (updatedTrip) {
+          this.router.navigate(['/trips', this.tripId]);
+        }
+      } else {
+        const newTrip = await this.travelDataService.addTrip(tripData);
+        this.router.navigate(['/trips', newTrip.id]);
       }
-    } else {
-      const newTrip = this.travelDataService.addTrip(tripData);
-      this.router.navigate(['/trips', newTrip.id]);
+    } catch (error) {
+      console.error('Failed to save trip:', error);
+      alert('Failed to save trip. Please try again.');
+    } finally {
+      this.saving = false;
     }
   }
 

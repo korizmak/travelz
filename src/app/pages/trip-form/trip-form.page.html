@@ -73,11 +73,11 @@
           </ion-item>
 
           <div class="button-group">
-            <ion-button type="button" fill="outline" (click)="onCancel()">
+            <ion-button type="button" fill="outline" (click)="onCancel()" [disabled]="saving">
               Cancel
             </ion-button>
-            <ion-button type="submit" fill="solid">
-              {{ submitButtonText }}
+            <ion-button type="submit" fill="solid" [disabled]="saving">
+              {{ saving ? 'Saving...' : submitButtonText }}
             </ion-button>
           </div>
         </form>

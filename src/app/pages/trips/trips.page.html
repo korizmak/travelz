@@ -20,7 +20,9 @@
       <ion-card-content>
         <p><strong>Dates:</strong> {{ trip.startDate }} - {{ trip.endDate }}</p>
         <p *ngIf="trip.budget"><strong>Budget:</strong> €{{ trip.budget }}</p>
-        <p><strong>Total Spent:</strong> €{{ getTripTotalSpent(trip.id!) }}</p>
+        <ng-container *ngIf="trip.id as tripId">
+          <p *ngIf="tripTotals[tripId] !== undefined"><strong>Total Spent:</strong> €{{ tripTotals[tripId] }}</p>
+        </ng-container>
       </ion-card-content>
     </ion-card>
   </div>
