@@ -50,7 +50,6 @@ export class EventFormPage implements OnInit {
 
   async ngOnInit() {
     this.tripId = this.route.snapshot.paramMap.get('tripId') || '';
-    console.log('EventForm tripId:', this.tripId);
     this.eventId = this.route.snapshot.paramMap.get('eventId');
 
     if (this.eventId) {
@@ -121,9 +120,7 @@ export class EventFormPage implements OnInit {
           this.router.navigate(['/trips', this.tripId]);
         }
       } else {
-        const savedEvent = await this.travelDataService.addEvent(this.tripId, eventData);
-        console.log('Saved event tripId:', savedEvent.tripId);
-        console.log('Expected tripId:', this.tripId);
+        await this.travelDataService.addEvent(this.tripId, eventData);
         this.router.navigate(['/trips', this.tripId]);
       }
     } catch (error) {

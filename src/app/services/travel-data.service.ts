@@ -122,7 +122,6 @@ export class TravelDataService {
     );
 
     const events = this.mapFirebaseList<TravelEvent>(response);
-    console.log('Loaded events for tripId:', tripId, events);
     return events;
   }
 
@@ -144,8 +143,6 @@ export class TravelDataService {
       ...eventData,
       tripId
     };
-
-    console.log('[Firebase POST event]', eventToSave);
 
     const response = await firstValueFrom(
       this.http.post<{ name: string }>(
