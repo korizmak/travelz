@@ -1,11 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { add } from 'ionicons/icons';
 import { Trip } from '../../models/trip.model';
 import { TravelDataService } from '../../services/travel-data.service';
+import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs';
 
 addIcons({ add });
@@ -24,7 +25,11 @@ export class TripsPage implements OnInit, OnDestroy {
   private tripsSubscription: Subscription | null = null;
   private loadingTotals = false;
 
-  constructor(private travelDataService: TravelDataService) {}
+  constructor(
+    private travelDataService: TravelDataService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   async ngOnInit() {
     // Subscribe to trips$ for real-time updates
@@ -60,5 +65,10 @@ export class TripsPage implements OnInit, OnDestroy {
     } finally {
       this.loadingTotals = false;
     }
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

@@ -23,7 +23,9 @@ export class AuthService {
     expiresAt: 'auth_expiresAt'
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.initializeAuth();
+  }
 
   async register(email: string, password: string): Promise<void> {
     const url = `${environment.firebaseAuthUrl}:signUp?key=${environment.firebaseApiKey}`;
@@ -86,6 +88,10 @@ export class AuthService {
 
   getIdToken(): string | null {
     return localStorage.getItem(this.localStorageKeys.idToken);
+  }
+
+  isAuthenticated(): boolean {
+    return this.authStateSubject.value;
   }
 
   private storeAuthData(response: AuthResponse): void {
