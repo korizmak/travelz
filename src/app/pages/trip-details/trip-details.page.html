@@ -12,12 +12,17 @@
 </ion-header>
 
 <ion-content>
-  <div *ngIf="!trip" class="not-found">
+  <div *ngIf="loading" class="loading-container">
+    <ion-spinner></ion-spinner>
+    <p>Loading trip...</p>
+  </div>
+
+  <div *ngIf="!loading && !trip" class="not-found">
     <p>Trip not found.</p>
     <ion-button routerLink="/trips">Back to Trips</ion-button>
   </div>
 
-  <div *ngIf="trip" class="trip-details-layout">
+  <div *ngIf="!loading && trip" class="trip-details-layout">
     <div class="trip-info-column">
       <ion-card class="trip-info-card">
         <ion-card-header>

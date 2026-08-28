@@ -20,6 +20,7 @@ addIcons({ add });
 export class TripsPage implements OnInit, OnDestroy {
   trips: Trip[] = [];
   tripTotals: Record<string, number> = {};
+  loading = true;
   private tripsSubscription: Subscription | null = null;
   private loadingTotals = false;
 
@@ -29,6 +30,7 @@ export class TripsPage implements OnInit, OnDestroy {
     // Subscribe to trips$ for real-time updates
     this.tripsSubscription = this.travelDataService.trips$.subscribe(async trips => {
       this.trips = trips;
+      this.loading = false;
       await this.loadTripTotals();
     });
     // Initial load from Firebase

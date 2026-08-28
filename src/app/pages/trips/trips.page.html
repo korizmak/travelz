@@ -7,7 +7,12 @@
 <ion-content class="ion-padding">
   <h2>My Trips</h2>
 
-  <div *ngIf="trips.length === 0" class="no-trips">
+  <div *ngIf="loading" class="loading-container">
+    <ion-spinner></ion-spinner>
+    <p>Loading trips...</p>
+  </div>
+
+  <div *ngIf="!loading && trips.length === 0" class="no-trips">
     No trips yet. Add your first trip.
   </div>
 
