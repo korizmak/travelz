@@ -1,0 +1,50 @@
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+}
+
+.form-card {
+  width: 100%;
+  max-width: 400px;
+
+  ion-item {
+    --background: #ffffff;
+    --color: #1a1a1a;
+    --placeholder-color: #999999;
+    margin-bottom: 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+  }
+
+  ion-label {
+    color: #333333 !important;
+  }
+
+  ion-input {
+    --color: #1a1a1a;
+    --placeholder-color: #999999;
+  }
+}
+
+.button-group {
+  margin-top: 20px;
+}
+
+.error-message {
+  color: #eb445a;
+  margin: 15px 0;
+  text-align: center;
+  font-size: 14px;
+}
+
+.login-link {
+  margin-top: 20px;
+  text-align: center;
+
+  p {
+    margin-bottom: 5px;
+    color: #666;
+  }
+}
