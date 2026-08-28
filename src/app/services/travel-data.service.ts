@@ -6,6 +6,7 @@ import { HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Trip } from '../models/trip.model';
 import { TravelEvent } from '../models/travel-event.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class TravelDataService {
   private tripsSubject = new BehaviorSubject<Trip[]>([]);
   trips$ = this.tripsSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   // Firebase mapping helpers
   private mapFirebaseList<T>(data: Record<string, Omit<T, 'id'>> | null): T[] {
@@ -26,11 +27,20 @@ export class TravelDataService {
     } as T));
   }
 
+  // Auth params helper
+  private getAuthParams(): HttpParams {
+    const idToken = this.authService.getIdToken();
+    if (!idToken) {
+      throw new Error('User is not authenticated');
+    }
+    return new HttpParams().set('auth', idToken);
+  }
+
   // Trip methods
   async getTrips(): Promise<Trip[]> {
     const url = `${this.baseUrl}/trips.json`;
     const response = await firstValueFrom(
-      this.http.get<Record<string, Omit<Trip, 'id'>> | null>(url)
+      this.http.get<Record<string, Omit<Trip, 'id'>> | null>(url, { params: this.getAuthParams() })
     );
     const trips = this.mapFirebaseList<Trip>(response);
     this.tripsSubject.next(trips);
@@ -40,7 +50,7 @@ export class TravelDataService {
   async getTripById(id: string): Promise<Trip | undefined> {
     const url = `${this.baseUrl}/trips/${id}.json`;
     const response = await firstValueFrom(
-      this.http.get<Omit<Trip, 'id'> | null>(url)
+      this.http.get<Omit<Trip, 'id'> | null>(url, { params: this.getAuthParams() })
     );
     if (!response) return undefined;
     return { id, ...response };
@@ -51,7 +61,7 @@ export class TravelDataService {
     
     try {
       const response = await firstValueFrom(
-        this.http.post<{ name: string }>(url, tripData)
+        this.http.post<{ name: string }>(url, tripData, { params: this.getAuthParams() })
       );
       
       if (!response.name) {
@@ -74,7 +84,7 @@ export class TravelDataService {
   async updateTrip(id: string, tripData: Partial<Trip>): Promise<Trip | undefined> {
     const url = `${this.baseUrl}/trips/${id}.json`;
     await firstValueFrom(
-      this.http.patch(url, tripData)
+      this.http.patch(url, tripData, { params: this.getAuthParams() })
     );
     const updatedTrip = await this.getTripById(id);
     if (updatedTrip) {
@@ -99,7 +109,7 @@ export class TravelDataService {
     // Then delete the trip
     const url = `${this.baseUrl}/trips/${id}.json`;
     await firstValueFrom(
-      this.http.delete(url)
+      this.http.delete(url, { params: this.getAuthParams() })
     );
     // Update the subject to remove the deleted trip
     const currentTrips = this.tripsSubject.value;
@@ -110,7 +120,7 @@ export class TravelDataService {
 
   // Event methods
   async getEventsByTripId(tripId: string): Promise<TravelEvent[]> {
-    const params = new HttpParams()
+    const params = this.getAuthParams()
       .set('orderBy', JSON.stringify('tripId'))
       .set('equalTo', JSON.stringify(tripId));
 
@@ -128,7 +138,7 @@ export class TravelDataService {
   async getEventById(eventId: string): Promise<TravelEvent | undefined> {
     const url = `${this.baseUrl}/events/${eventId}.json`;
     const response = await firstValueFrom(
-      this.http.get<Omit<TravelEvent, 'id'> | null>(url)
+      this.http.get<Omit<TravelEvent, 'id'> | null>(url, { params: this.getAuthParams() })
     );
     if (!response) return undefined;
     return { id: eventId, ...response };
@@ -147,7 +157,8 @@ export class TravelDataService {
     const response = await firstValueFrom(
       this.http.post<{ name: string }>(
         `${this.baseUrl}/events.json`,
-        eventToSave
+        eventToSave,
+        { params: this.getAuthParams() }
       )
     );
 
@@ -164,7 +175,7 @@ export class TravelDataService {
   async updateEvent(eventId: string, eventData: Partial<TravelEvent>): Promise<TravelEvent | undefined> {
     const url = `${this.baseUrl}/events/${eventId}.json`;
     await firstValueFrom(
-      this.http.patch(url, eventData)
+      this.http.patch(url, eventData, { params: this.getAuthParams() })
     );
     return this.getEventById(eventId);
   }
@@ -172,7 +183,7 @@ export class TravelDataService {
   async deleteEvent(eventId: string): Promise<boolean> {
     const url = `${this.baseUrl}/events/${eventId}.json`;
     await firstValueFrom(
-      this.http.delete(url)
+      this.http.delete(url, { params: this.getAuthParams() })
     );
     return true;
   }
