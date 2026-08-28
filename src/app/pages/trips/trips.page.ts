@@ -67,6 +67,20 @@ export class TripsPage implements OnInit, OnDestroy {
     }
   }
 
+  formatDate(dateValue?: string): string {
+    if (!dateValue) {
+      return '';
+    }
+
+    const parts = dateValue.split('-');
+    if (parts.length !== 3) {
+      return dateValue;
+    }
+
+    const [year, month, day] = parts;
+    return `${day}-${month}-${year}`;
+  }
+
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);

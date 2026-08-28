@@ -70,8 +70,8 @@ export class TripFormPage implements OnInit {
     }
 
     const tripData: Omit<Trip, 'id'> = {
-      title: this.form.title,
-      destination: this.form.destination,
+      title: this.form.title.trim(),
+      destination: this.form.destination.trim(),
       startDate: this.form.startDate,
       endDate: this.form.endDate,
       budget: this.form.budget ? parseFloat(this.form.budget) : undefined,
@@ -120,6 +120,10 @@ export class TripFormPage implements OnInit {
     }
     if (!this.form.endDate) {
       alert('End date is required');
+      return false;
+    }
+    if (this.form.endDate < this.form.startDate) {
+      alert('End date cannot be before start date.');
       return false;
     }
     if (this.form.budget && (isNaN(parseFloat(this.form.budget)) || parseFloat(this.form.budget) < 0)) {

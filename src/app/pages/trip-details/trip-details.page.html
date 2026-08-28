@@ -30,7 +30,7 @@
           <ion-card-subtitle>{{ trip.destination }}</ion-card-subtitle>
         </ion-card-header>
         <ion-card-content>
-          <p><strong>Dates:</strong> {{ trip.startDate }} - {{ trip.endDate }}</p>
+          <p><strong>Dates:</strong> {{ formatDate(trip.startDate) }} - {{ formatDate(trip.endDate) }}</p>
           <p *ngIf="trip.description"><strong>Description:</strong> {{ trip.description }}</p>
           <p *ngIf="trip.budget"><strong>Budget:</strong> €{{ trip.budget }}</p>
           <p><strong>Total Spent:</strong> €{{ totalSpent }}</p>
